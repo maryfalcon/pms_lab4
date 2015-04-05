@@ -46,9 +46,22 @@ ssize_t calc_write(struct file *filp, const char *buf, size_t count, loff_t *off
 ssize_t calc_read(struct file *filp, char *buf, size_t count, loff_t *offp)
 {
 	char str[15];
-	int length = 15;
+	int length, res;
 	static int finished = 0;
-	length = sprintf(str, "%d%c%d",first,operation, second);
+	if (operation == '+')
+		res = first + second;
+	if (operation == '-')
+		res = first - second;
+	if (operation == '*')
+		res = first * second;
+	if (operation == '/') {
+		if (second == 0){
+			printk(KERN_INFO "Division by zero.\n");
+			return 0;
+		}
+		res = first / second;
+	}
+	length = sprintf(str, "%d%c%d = %d\n",first, operation, second, res);
 	if ( finished ) {
 		finished = 0;
 		return 0;
