@@ -46,7 +46,7 @@ ssize_t calc_write(struct file *filp, const char *buf, size_t count, loff_t *off
 ssize_t calc_read(struct file *filp, char *buf, size_t count, loff_t *offp)
 {
 	char str[15];
-	int length, res;
+	int length = 0, res = 0;
 	static int finished = 0;
 	if (operation == '+')
 		res = first + second;
